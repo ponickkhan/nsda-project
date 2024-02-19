@@ -1,0 +1,24 @@
+name: Save Random Number on Issue Creation
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  save-random-number:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Save Random Number to File
+        run: echo $((1 + $RANDOM % 6)) > random_number.txt
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add random_number.txt
+          git commit -m "Add random number"
+          git push
